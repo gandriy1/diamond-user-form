@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
+//import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
+//import './material-dashboard.css';
+
 import * as serviceWorker from './serviceWorker';
 
 import DiamondApp from './DiamondApp';

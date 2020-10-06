@@ -1,6 +1,5 @@
 import React from 'react';
-import './App.css';
-import {Form, Button, Container, Alert} from 'react-bootstrap';
+import {Form, Button, Container, Alert, Spinner} from 'react-bootstrap';
 import axios from 'axios';
 
 //show success message, explore this.func and const a = () => {}
@@ -55,43 +54,69 @@ function ClientForm(props){
 
 function SubmitStatus(props){
   return (
-    <Alert variant="success">
+    <Alert variant="info">
       <Alert.Heading>Client {props.clientName} was added</Alert.Heading>
         <hr />
         <div className="d-flex justify-content-end">
-          <Button onClick={props.onFinish} variant="outline-success">Back</Button>
+          <Button onClick={props.onFinish} variant="outline-primary">Back</Button>
         </div>
     </Alert>
   );
 }
 
+function LoadingView(props){
+  return (
+    <>
+      <Spinner animation="border" variant="success" />
+      <Button onClick={props.onCancel} variant="outline-danger">Cancel</Button>
+    </>
+  )
+}
+
 let nameOfAddedClient = "";
+const FORM_STATE = { DISPLAY_FORM: 1, SUBMIT_IN_PROGRESS: 2, FORM_SUBMITTED: 3}
 function App() {
-  let [showFormSubmittedStatus, setShowFormSubmittedStatus] = React.useState(false);
+  let [formState, setFormState] = React.useState(FORM_STATE.DISPLAY_FORM);
+  let cancelRequestId = React.useRef(0);
 
   const processFormData = (clientInfo) => {
     let serverReqBody = {name:clientInfo.name, address: clientInfo.address, phone: clientInfo.phone, extraInfo: clientInfo.extraInfo};
     console.log(serverReqBody);
 
     nameOfAddedClient =  clientInfo.name;
-    setShowFormSubmittedStatus(true);
+    setFormState(FORM_STATE.SUBMIT_IN_PROGRESS);
 
-    axios.post('/addClient', serverReqBody)
+    /*axios.post('/addClient', serverReqBody)
     .then(function (response) {
       console.log(response);
+      setFormState(FORM_STATE.FORM_SUBMITTED);
     })
     .catch(function (error) {
       console.log(error);
-    });
+      setFormState(FORM_STATE.FORM_SUBMITTED);
+    });*/
+    cancelRequestId.current = setTimeout(()=>{setFormState(FORM_STATE.FORM_SUBMITTED);}, 3000);
   }
 
   const backToForm = () => {
-    setShowFormSubmittedStatus(false);
+    setFormState(FORM_STATE.DISPLAY_FORM);
   }
 
+  const cancelServerRequest = () => {
+    clearTimeout(cancelRequestId.current); 
+    setFormState(FORM_STATE.DISPLAY_FORM);
+  }
+  
+  const getCurrentView = function() {
+    switch(formState) {
+      case FORM_STATE.DISPLAY_FORM: return (<ClientForm onFinish={processFormData}/>);
+      case FORM_STATE.SUBMIT_IN_PROGRESS: return (<LoadingView onCancel={cancelServerRequest} />);
+      case FORM_STATE.FORM_SUBMITTED: return (<SubmitStatus onFinish={backToForm} clientName={nameOfAddedClient} />);
+    }
+  }
   return (
     <Container className="p-3">
-      { showFormSubmittedStatus ? <SubmitStatus onFinish={backToForm} clientName={nameOfAddedClient} /> : <ClientForm onFinish={processFormData}/> }
+      {getCurrentView()}
     </Container>
   );
 }
