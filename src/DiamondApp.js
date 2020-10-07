@@ -112,6 +112,7 @@ function App() {
       case FORM_STATE.DISPLAY_FORM: return (<ClientForm onFinish={processFormData}/>);
       case FORM_STATE.SUBMIT_IN_PROGRESS: return (<LoadingView onCancel={cancelServerRequest} />);
       case FORM_STATE.FORM_SUBMITTED: return (<SubmitStatus onFinish={backToForm} clientName={nameOfAddedClient} />);
+      default: return (<div></div>);
     }
   }
   return (
