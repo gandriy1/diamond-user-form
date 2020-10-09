@@ -2,6 +2,7 @@ import React from 'react';
 import {Form, Button, Container, Alert, Spinner} from 'react-bootstrap';
 import axios from 'axios';
 
+
 //show success message, explore this.func and const a = () => {}
 //figure out url config file for deployments
 //loading screen while submitting
@@ -53,6 +54,9 @@ function ClientForm(props){
 }
 
 function SubmitStatus(props){
+
+  window.DiamondUI.showInfoNotification("Client Added");
+
   return (
     <Alert variant="info">
       <Alert.Heading>Client {props.clientName} was added</Alert.Heading>
@@ -95,7 +99,7 @@ function App() {
       console.log(error);
       setFormState(FORM_STATE.FORM_SUBMITTED);
     });*/
-    cancelRequestId.current = setTimeout(()=>{setFormState(FORM_STATE.FORM_SUBMITTED);}, 3000);
+    cancelRequestId.current = setTimeout(()=>{setFormState(FORM_STATE.FORM_SUBMITTED);}, 1000);
   }
 
   const backToForm = () => {

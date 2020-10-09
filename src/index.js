@@ -1,65 +1,56 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-import DiamondApp from './DiamondApp';
-import AdminApp from './AdminApp';
-
 import {
-    BrowserRouter as Router,
-    Switch, Route, Link, useLocation
+  BrowserRouter as Router,
+  Switch, Route
 } from 'react-router-dom'
 
-//function a(){return <div>{"useLocation().pathname"}</div>}
-//{a()}
+import {NavBar, Navigation} from './UIComponents';
+import DDAddLead from './DDAddLead';
+import DDRoutes from './DDRoutes';
+import DDLeads from './DDLeads';
 
-function Navigation(props){
 
-  const currentLocation = useLocation().pathname;
-  const handleNavActiveClass = (linkLocation) => {return linkLocation === currentLocation ? "active" : "";}
 
-  return (
-    <div>
-      <div className="sidebar" data-color="purple" data-background-color="white" data-image={process.env.PUBLIC_URL +"/img/sidebar-1.jpg"}>
-          <div className="logo">
-            <Link to="/" className="simple-text logo-normal">Home</Link>
-          </div>
-          <div className="sidebar-wrapper">
-            <ul className="nav">
-              <li className={'nav-item ' +handleNavActiveClass('/leads')}>
-                <Link to="/leads" className="nav-link">
-                  <i className="material-icons">content_paste</i>
-                  <p>Leads</p>
-                </Link>
-              </li>
-              <li className={'nav-item ' +handleNavActiveClass('/addClient')}>
-                <Link to="/addClient" className="nav-link">
-                  <i className="material-icons">dashboard</i>
-                  <p>Route Plan</p>
-                </Link>
-              </li>
-            </ul>
-          </div>
-      </div>
-    </div>
-  );
-}
+const routesConfig = [
+  {
+    label: "Route Plan",
+    link: "/routes",
+    icon: "dashboard",
+    component: <DDRoutes />
+  },
+  {
+    label: "Leads",
+    link: "/leads",
+    icon: "content_paste",
+    component: <DDLeads />
+  },
+  {
+    label: "Add Lead",
+    link: "/addLead",
+    icon: "content_paste",
+    component: <DDAddLead />
+  }
+]
 
 ReactDOM.render(
-
   <React.StrictMode>  
     <Router>
-      <Navigation />
+      <Navigation routesConfig={routesConfig} />
+      <div className="main-panel">
+        <NavBar />
+        <div className="content">
+        <div className="container-fluid">
       <Switch>
-        <Route path="/leads">
-          <AdminApp />
-        </Route>
-        <Route path="/addClient">
-          <DiamondApp />
-        </Route>
-        <Route path="/">
-          <div>Home</div>
-        </Route>
+        {routesConfig.map((route,index) => (
+          <Route key={index} path={route.link}>
+            {route.component}
+          </Route>
+        ))}
       </Switch>
+      </div>
+      </div>
+      </div>
     </Router>
   </React.StrictMode>,
   document.getElementById('root')
