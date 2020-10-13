@@ -16,11 +16,10 @@ const notificationTime = 3000;
           }); 
     }
 
-    
-    var DiamondUI = {
+    var DiamondApp = {
         showInfoNotification: showInfoNotification
-    }
+    };
     
-    window.DiamondUI = DiamondUI;
+    window.DiamondApp = DiamondApp;
 }());
 

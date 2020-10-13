@@ -16,7 +16,7 @@ export function Navigation(props){
             </div>
             <div className="sidebar-wrapper">
                 <ul className="nav">
-                {props.routesConfig.map((route, index)=>(
+                {props.routesConfig.filter((route)=>{return route.isVisibleInPanel !== false ? route : null;}).map((route, index)=>(
                     <li key={index} className={'nav-item ' +handleNavActiveClass(route.link)}>
                         <Link to={route.link} className="nav-link">
                         <i className="material-icons">{route.icon}</i>
