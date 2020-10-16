@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { ListGroup, Button } from "react-bootstrap";
 import axios from "axios";
-import LeadsModel from "./LeadsModel";
+import LeadModel from "./LeadModel";
 
 axios.defaults.baseURL = "https://diamond-server.azurewebsites.net";
 
 const urlRoutePrefix =
   "https://www.google.com/maps/dir/?api=1&origin=197%20Anthony%20Ln%2C%20Concord&destination=197%20Anthony%20Ln%2C%20Concord&travelmode=driving&waypoints=";
   
-function App() {
+function Routes() {
   let [clients, setClients] = useState([]);
   let [mapUrl, setMapUrl] = useState("http://google.com");
 
   const fetchUsers = () => {
-    LeadsModel.getLeads({}, (serverLeads) => {
+    LeadModel.getLeads({}, (serverLeads) => {
       setClients(serverLeads);
     });
 
@@ -70,4 +70,4 @@ function App() {
   );
 }
 
-export default App;
+export default Routes;

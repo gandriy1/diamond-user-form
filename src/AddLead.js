@@ -3,7 +3,7 @@ import {Form, Button} from 'react-bootstrap';
 import { useHistory } from "react-router-dom";
 
 import Config from './Config'
-import LeadsModel from './LeadsModel';
+import LeadModel from './LeadModel';
 
 function ClientForm(props){
   const emptyClientInfo =   { name: "Vladimir", address: "268 Brighton Ave, Toronto", visitDate:"", phone: "(647)556-0949", email: "", extraInfo:""};
@@ -58,7 +58,7 @@ function ClientForm(props){
   );
 }
 
-function App() {
+function AddLead() {
 
   const history = useHistory();
 
@@ -67,7 +67,7 @@ function App() {
     const dateObj = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
     clientInfo.visitDate = dateObj.toISOString();
 
-    LeadsModel.addLead(clientInfo, ()=>{
+    LeadModel.addLead(clientInfo, ()=>{
       window.DiamondApp.showInfoNotification("Client Added");
       history.push(Config.routesConfig.getLeadsLink());
     });
@@ -78,4 +78,4 @@ function App() {
   );
 }
 
-export default App;
+export default AddLead;

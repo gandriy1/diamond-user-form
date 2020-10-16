@@ -1,17 +1,17 @@
 import React from "react";
 import { Table } from "react-bootstrap";
-import LeadsModel from "./LeadsModel";
+import LeadModel from "./LeadModel";
 import dateformat from "dateformat";
 import { useHistory } from "react-router-dom";
 
 import Config from './Config'
 
-function DDLeads() {
+function Leads() {
   const [leads, setLeads] = React.useState([]);
   const history = useHistory();
 
   const getLeads = () => {
-    LeadsModel.getLeads({}, (serverLeads) => {
+    LeadModel.getLeads({}, (serverLeads) => {
       setLeads(serverLeads);
     });
   };
@@ -79,4 +79,4 @@ function DDLeads() {
   );
 }
 
-export default DDLeads;
+export default Leads;

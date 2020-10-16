@@ -1,8 +1,9 @@
 import React from 'react';
 
-import DDAddLead from './DDAddLead';
-import DDRoutes from './DDRoutes';
-import DDLeads from './DDLeads';
+import AddLead from './AddLead';
+import Routes from './Routes';
+import Leads from './Leads';
+import Login from './Login';
 
 const routesConfig = {
     routes: [
@@ -10,20 +11,28 @@ const routesConfig = {
         label: "Route Plan",
         link: "/routes",
         icon: "dashboard",
-        component: <DDRoutes />
+        component: <Routes />
       },
       {
         label: "Leads",
         link: "/leads",
         icon: "content_paste",
-        component: <DDLeads />
+        component: <Leads />
       },
       {
-        label: "Add Lead",
+        label: "",
         link: "/addLead",
-        icon: "content_paste",
+        icon: "",
         isVisibleInPanel: false,
-        component: <DDAddLead />
+        component: <AddLead />
+      },
+      {
+        label: "",
+        link: "/login",
+        icon: "",
+        isVisibleInPanel: false,
+        sidebarDisabled: true,
+        component: <Login />
       }
     ],
     getLeadsLink: function(){return this.routes[1].link},

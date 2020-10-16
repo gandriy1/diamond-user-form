@@ -5,12 +5,16 @@ import {
 } from 'react-router-dom'
 
 export function Navigation(props){
-
     const currentLocation = useLocation().pathname;
     const handleNavActiveClass = (linkLocation) => {return linkLocation === currentLocation ? "active" : "";}
+    const isShowSidebarForCurrentRoute = () => {
+        const currentRoute = props.routesConfig.find(route => route.link === currentLocation);    
+        return currentRoute.isVisibleInPanel !== false;
+    }
 
     return (
-        <div className="sidebar" data-color="purple" data-background-color="white" data-image={process.env.PUBLIC_URL +"/img/sidebar-1.jpg"}>
+        <>
+        { isShowSidebarForCurrentRoute() && <div className="sidebar" data-color="purple" data-background-color="white" data-image={process.env.PUBLIC_URL +"/img/sidebar-1.jpg"}>
             <div className="logo">
                 <Link to="/" className="simple-text logo-normal">Home</Link>
             </div>
@@ -26,13 +30,13 @@ export function Navigation(props){
                 ))}
                 </ul>
             </div>
-        </div>
+        </div>}
+        </>
     );
 }
 
-export function NavBar(){
-    return (
-        <nav className="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+export function NavBar(props){
+    return (<nav className="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
         <div className="container-fluid">
             <div className="navbar-wrapper">
             <span className="navbar-brand">Dashboard</span>
