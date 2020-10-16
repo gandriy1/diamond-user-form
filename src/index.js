@@ -4,7 +4,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Container } from "react-bootstrap";
 
 import Config from "./Config";
-import { NavBar, Navigation } from "./UIComponents";
+import { Navigation } from "./UIComponents";
+import { AppContext } from "./AppContext";
 
 /*function LoadingView(props) {
   return (
@@ -15,23 +16,22 @@ import { NavBar, Navigation } from "./UIComponents";
   );
 }*/
 
+
 function App() {
   return (
     <>
       {/* <LoadingView /> */}
       <Router>
-      <Switch>
-        {Config.routesConfig.routes.map((route, index) => (
-          <Route key={index} path={route.link} >
-            <Navigation routesConfig={Config.routesConfig.routes} />
-            <div className="main-panel">
-              <NavBar />
-              <div className="content">
-                <Container>{route.component}</Container>
-              </div>
-            </div>
-          </Route>
-        ))}
+        <Switch>
+          {Config.routesConfig.routes.map((route, index) => (
+            <Route key={index} path={route.link}>
+              <AppContext.Provider value={{username:'user'}}>
+                <Navigation>
+                  <Container>{route.component}</Container>
+                </Navigation>
+              </AppContext.Provider>
+            </Route>
+          ))}
         </Switch>
       </Router>
     </>

@@ -1,61 +1,112 @@
-import React from 'react';
+import React from "react";
 
-import {
-    Link, useLocation
-} from 'react-router-dom'
+import { Link, useLocation } from "react-router-dom";
 
-export function Navigation(props){
-    const currentLocation = useLocation().pathname;
-    const handleNavActiveClass = (linkLocation) => {return linkLocation === currentLocation ? "active" : "";}
-    const isShowSidebarForCurrentRoute = () => {
-        const currentRoute = props.routesConfig.find(route => route.link === currentLocation);    
-        return currentRoute.isVisibleInPanel !== false;
-    }
+import Config from "./Config";
+import AppContext from './AppContext'
 
-    return (
-        <>
-        { isShowSidebarForCurrentRoute() && <div className="sidebar" data-color="purple" data-background-color="white" data-image={process.env.PUBLIC_URL +"/img/sidebar-1.jpg"}>
-            <div className="logo">
-                <Link to="/" className="simple-text logo-normal">Home</Link>
-            </div>
-            <div className="sidebar-wrapper">
-                <ul className="nav">
-                {props.routesConfig.filter((route)=>{return route.isVisibleInPanel !== false ? route : null;}).map((route, index)=>(
-                    <li key={index} className={'nav-item ' +handleNavActiveClass(route.link)}>
-                        <Link to={route.link} className="nav-link">
-                        <i className="material-icons">{route.icon}</i>
-                        <p>{route.label}</p>
-                        </Link>
-                    </li>
+function NavLinks(props) {
+  const currentLocation = useLocation().pathname;
+  const handleNavActiveClass = (linkLocation) => {
+    return linkLocation === currentLocation ? "active" : "";
+  };
+
+
+  const linkPressed = (event) => {window.$(".navbar-toggler").click();};
+  const context = React.useContext(AppContext);
+  /*data-image={process.env.PUBLIC_URL + "/img/sidebar-1.jpg"}*/
+
+  return (
+    <>
+      {props.isVisible && (
+        <div
+          className="sidebar"
+          data-color="purple"
+          data-background-color="white"
+
+        >
+          <div className="logo">
+            <Link to={Config.routesConfig.getUserConfigsLink()} className="simple-text logo-normal">
+            <i className="material-icons">person</i> {context.username}
+            </Link>
+          </div>
+          <div className="sidebar-wrapper">
+            <ul className="nav">
+              {Config.routesConfig.routes
+                .filter((route) => {
+                  return route.isVisibleInPanel !== false ? route : null;
+                })
+                .map((route, index) => (
+                  <li
+                    key={index}
+                    className={"nav-item " + handleNavActiveClass(route.link)}
+                  >
+                    <Link to={route.link} className="nav-link" onClick={linkPressed}>
+                      <i className="material-icons">{route.icon}</i>
+                      <p>{route.label}</p>
+                    </Link>
+                  </li>
                 ))}
-                </ul>
-            </div>
-        </div>}
-        </>
-    );
-}
-
-export function NavBar(props){
-    return (<nav className="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
-        <div className="container-fluid">
-            <div className="navbar-wrapper">
-            <span className="navbar-brand">Dashboard</span>
-            </div>
-            <button className="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="sr-only">Toggle navigation</span>
-            <span className="navbar-toggler-icon icon-bar"></span>
-            <span className="navbar-toggler-icon icon-bar"></span>
-            <span className="navbar-toggler-icon icon-bar"></span>
-            </button>
-            <div className="collapse navbar-collapse justify-content-end">
-            <form className="navbar-form">
-            </form>
-            <ul className="navbar-nav">
             </ul>
-            </div>
+          </div>
         </div>
-        </nav>
-    )
+      )}
+    </>
+  );
 }
 
-export default {Navigation, NavBar};
+function NavBar(props) {
+  return (
+    <>
+    { props.isVisible && (
+    <nav className="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+      <div className="container-fluid">
+        <div className="navbar-wrapper">
+          {/*<span className="navbar-brand">Dashboard</span>*/}
+        </div>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          aria-controls="navigation-index"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="sr-only">Toggle navigation</span>
+          <span className="navbar-toggler-icon icon-bar"></span>
+          <span className="navbar-toggler-icon icon-bar"></span>
+          <span className="navbar-toggler-icon icon-bar"></span>
+        </button>
+        <div className="collapse navbar-collapse justify-content-end">
+          <form className="navbar-form"></form>
+          <ul className="navbar-nav"></ul>
+        </div>
+      </div>
+    </nav>)}
+    </>
+  );
+}
+
+export function Navigation(props) {
+    const currentLocation = useLocation().pathname;
+
+    const isShowSidebarForCurrentRoute = () => {
+        const currentRoute = Config.routesConfig.routes.find(
+            (route) => route.link === currentLocation
+        );
+        
+        return currentRoute.sidebarDisabled !== true;
+    };
+
+  return (
+    <>
+      <NavLinks isVisible={isShowSidebarForCurrentRoute()} />
+      <div className="main-panel">
+        <NavBar isVisible={isShowSidebarForCurrentRoute()} />
+        <div className="content">{props.children}</div>
+      </div>
+    </>
+  );
+}
+
+export default { Navigation };

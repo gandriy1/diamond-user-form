@@ -28,7 +28,15 @@ const routesConfig = {
       },
       {
         label: "",
-        link: "/login",
+        link: "/",
+        icon: "",
+        isVisibleInPanel: false,
+        sidebarDisabled: true,
+        component: <Login />
+      },
+      {
+        label: "",
+        link: "/user",
         icon: "",
         isVisibleInPanel: false,
         sidebarDisabled: true,
@@ -37,6 +45,7 @@ const routesConfig = {
     ],
     getLeadsLink: function(){return this.routes[1].link},
     getAddLeadLink: function(){return this.routes[2].link},
+    getUserConfigsLink: function(){return this.routes[4].link},
 };
 
 const Config = {

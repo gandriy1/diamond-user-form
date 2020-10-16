@@ -4,12 +4,14 @@ import { useHistory } from "react-router-dom";
 
 import Config from './Config'
 import UserModel from './UserModel';
+import AppContext from './AppContext'
 
 function Login() {
 
   let [user, setUser] = React.useState({username:'', password:''});
 
   const history = useHistory();
+  const context = React.useContext(AppContext);
 
   const setAttrValue = (attrName) => (event) => { 
     setUser({...user, [attrName]: event.target.value}); 
@@ -18,8 +20,10 @@ function Login() {
   const submitLoginInfo = (event) => {
     event.preventDefault();
     UserModel.loginUser(user, (user)=>{
-      if(user)
+      if(user){
         history.push(Config.routesConfig.getLeadsLink());
+        context.username = user.username;
+      }
       else
         window.DiamondApp.showInfoNotification("Invalid Username or Password");
     });
