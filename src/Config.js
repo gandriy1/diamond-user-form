@@ -55,7 +55,7 @@ const routesConfig = {
         link: "/user",
         icon: "",
         isVisibleInPanel: false,
-        component: <Login />
+        component: <></>
       },
       {
         label: "Logout",

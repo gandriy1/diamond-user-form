@@ -24,8 +24,6 @@ function Estimates() {
   };
 
   React.useEffect(getEstimates, []);
-
-  console.log(appContext.context);
   
   return (
     <div className="card">

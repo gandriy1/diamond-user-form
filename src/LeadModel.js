@@ -9,7 +9,7 @@ const leads = [
 ];
 
 function getLeads(request, successCb, failCb) {
-    setTimeout(()=>{successCb(leads);}, 1000);
+    setTimeout(()=>{successCb(leads);}, 500);
     
   /*
     axios.post('/addClient', request)
@@ -24,8 +24,7 @@ function getLeads(request, successCb, failCb) {
 
 function addLead(request, successCb, failCb) {
     leads.push(request);
-    console.log(leads);
-    setTimeout(successCb, 1000);
+    setTimeout(successCb, 500);
   /*
     axios.post('/addClient', request)
     .then(function (response) {

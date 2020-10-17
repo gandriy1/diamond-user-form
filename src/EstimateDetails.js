@@ -99,7 +99,7 @@ function EstimateDetails() {
               <tr>
                 <th>Name</th>
                 <th>Qty + Rate</th>
-                <th>Price</th>
+                {appContext.context.user.isAdmin && <th>Price</th>}
                 <th></th>
               </tr>
             </thead>
@@ -113,7 +113,7 @@ function EstimateDetails() {
                     <td>
                       {lineItem.quantity} x ${lineItem.rate}
                     </td>
-                    <td>${lineItem.quantity * lineItem.rate}</td>
+                    {appContext.context.user.isAdmin && <td>${lineItem.quantity * lineItem.rate}</td>}
                   </tr>
                 );
               })}
@@ -122,16 +122,21 @@ function EstimateDetails() {
                 <td></td>
                 <td></td>
               </tr>
-              <tr>
+              {appContext.context.user.isAdmin && <tr>
                 <td></td>
                 <td>Subtotal </td>
                 <td>${estimate.lineItemsSubtotal}</td>
-              </tr>
-              <tr>
+              </tr>}
+              {appContext.context.user.isAdmin && <tr>
+                <td></td>
+                <td>Markup </td>
+                <td>$750</td>
+              </tr>}
+              {appContext.context.user.isAdmin && <tr>
                 <td></td>
                 <td>Total </td>
                 <td>${estimate.price}</td>
-              </tr>
+              </tr> }
             </tbody>
           </Table>
         </div>

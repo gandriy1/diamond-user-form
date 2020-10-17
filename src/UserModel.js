@@ -11,7 +11,7 @@ function loginUser(request, successCb, failCb) {
   const user = users.find(user => user.username.toLowerCase() === request.username.toLowerCase());
   setTimeout(() => {
     successCb(user);
-  }, 1000);
+  }, 500);
 }
 
 var Model = {
