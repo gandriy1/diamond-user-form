@@ -18,14 +18,17 @@ import { AppContext } from "./AppContext";
 
 
 function App() {
+  const [context, setContext] = React.useState({ user: {username: '', isAdmin: false} });
+
   return (
     <>
       {/* <LoadingView /> */}
       <Router>
+
         <Switch>
           {Config.routesConfig.routes.map((route, index) => (
             <Route key={index} path={route.link}>
-              <AppContext.Provider value={{username:'user'}}>
+              <AppContext.Provider value={{context: context, setContext: setContext}}>
                 <Navigation>
                   <Container>{route.component}</Container>
                 </Navigation>

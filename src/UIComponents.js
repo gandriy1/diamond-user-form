@@ -12,8 +12,8 @@ function NavLinks(props) {
   };
 
 
-  const linkPressed = (event) => {window.$(".navbar-toggler").click();};
-  const context = React.useContext(AppContext);
+  const linkPressed = window.DiamondApp.hideSidebar;
+  const appContext = React.useContext(AppContext);
   /*data-image={process.env.PUBLIC_URL + "/img/sidebar-1.jpg"}*/
 
   return (
@@ -27,7 +27,7 @@ function NavLinks(props) {
         >
           <div className="logo">
             <Link to={Config.routesConfig.getUserConfigsLink()} className="simple-text logo-normal">
-            <i className="material-icons">person</i> {context.username}
+            <i className="material-icons">person</i> {appContext.context.user.username}
             </Link>
           </div>
           <div className="sidebar-wrapper">
@@ -62,7 +62,7 @@ function NavBar(props) {
     <nav className="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
       <div className="container-fluid">
         <div className="navbar-wrapper">
-          {/*<span className="navbar-brand">Dashboard</span>*/}
+          <span className="navbar-brand"></span>
         </div>
         <button
           className="navbar-toggler"
@@ -79,7 +79,10 @@ function NavBar(props) {
         </button>
         <div className="collapse navbar-collapse justify-content-end">
           <form className="navbar-form"></form>
-          <ul className="navbar-nav"></ul>
+          <ul className="navbar-nav">
+            <li className="">
+              </li>
+          </ul>
         </div>
       </div>
     </nav>)}
@@ -87,12 +90,16 @@ function NavBar(props) {
   );
 }
 
+function isRoutesMatch(staticRoute, currentRoute){
+  return staticRoute.includes(':') ? staticRoute.split('/')[1] === currentRoute.split('/')[1] : staticRoute === currentRoute;
+}
+
 export function Navigation(props) {
     const currentLocation = useLocation().pathname;
 
     const isShowSidebarForCurrentRoute = () => {
         const currentRoute = Config.routesConfig.routes.find(
-            (route) => route.link === currentLocation
+            (route) => isRoutesMatch(route.link, currentLocation)
         );
         
         return currentRoute.sidebarDisabled !== true;

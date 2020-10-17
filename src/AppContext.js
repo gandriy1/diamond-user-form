@@ -1,6 +1,6 @@
 import React from "react";
 
-export const AppContext = React.createContext({ username: '' });
+export const AppContext = React.createContext({ user: {username: ''}, updateUser: () => {} });
 
 export default AppContext;
 /*export function useAppContext(){

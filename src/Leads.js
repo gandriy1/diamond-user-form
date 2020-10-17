@@ -30,11 +30,11 @@ function Leads() {
             <h4 className="card-title ">Leads</h4>
             <ul className="nav nav-tabs">
               <li className="nav-item">
-                <button className="nav-link" onClick={addLead}> 
+                <div className="nav-link" onClick={addLead}> 
                   <i className="material-icons">note_add</i>
                   <span>Add Lead</span>
                   <div className="ripple-container"></div>
-                </button>
+                </div>
               </li>
             </ul>
           </div>
@@ -54,9 +54,9 @@ function Leads() {
             {leads.map((lead, index) => {
               return (
                 <tr key={index}>
-                  <td>{lead.name}</td>
+                  <td className="text-primary">{lead.name}</td>
                   <td>{lead.address}</td>
-                  <td className="text-primary">
+                  <td>
                     {dateformat(lead.visitDate, "dddd, mmmm dS")}
                   </td>
                   <td className="td-actions text-right">

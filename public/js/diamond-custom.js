@@ -16,8 +16,13 @@ const notificationTime = 3000;
           }); 
     }
 
+    function hideSidebar(){
+      $(".navbar-toggler").click();
+    }
+
     var DiamondApp = {
-        showInfoNotification: showInfoNotification
+        showInfoNotification: showInfoNotification,
+        hideSidebar: hideSidebar 
     };
     
     window.DiamondApp = DiamondApp;

@@ -11,7 +11,7 @@ function Login() {
   let [user, setUser] = React.useState({username:'', password:''});
 
   const history = useHistory();
-  const context = React.useContext(AppContext);
+  const appContext = React.useContext(AppContext);
 
   const setAttrValue = (attrName) => (event) => { 
     setUser({...user, [attrName]: event.target.value}); 
@@ -22,7 +22,7 @@ function Login() {
     UserModel.loginUser(user, (user)=>{
       if(user){
         history.push(Config.routesConfig.getLeadsLink());
-        context.username = user.username;
+        appContext.setContext({ user: {username: user.username, isAdmin: user.isAdmin} });
       }
       else
         window.DiamondApp.showInfoNotification("Invalid Username or Password");
